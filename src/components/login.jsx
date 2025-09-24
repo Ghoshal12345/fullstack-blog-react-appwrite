@@ -57,7 +57,7 @@ function Login() {
           <div className='space-y-5 '>
             <Input
               label="Email:"
-              placeholder="Enter your email"
+              // placeholder="Enter your email"
               type="email"
               {...register("email", {
                 required: true,
@@ -69,7 +69,7 @@ function Login() {
             <Input
               label="Password: "
               type="password"
-              placeholder="Enter your password"
+              // placeholder="Enter your password"
               {...register("password", {
                 required: true,
               })}

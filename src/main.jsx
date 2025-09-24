@@ -15,6 +15,9 @@ import EditPost from "./pages/editPost.jsx";
 import Post from "./pages/post.jsx";
 import AllPosts from "./pages/AllPosts";
 
+import '@mantine/core/styles.css';
+import { MantineProvider } from '@mantine/core'
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -77,8 +80,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <MantineProvider withGlobalStyles withNormalizeCSS>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </MantineProvider>
   </React.StrictMode>,
 )
