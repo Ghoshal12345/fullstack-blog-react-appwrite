@@ -9,8 +9,14 @@ import { useForm, Controller } from 'react-hook-form'
 function Signup() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [error, setError] = useState("");
-    const { register, handleSubmit} = useForm();
+    const { control, handleSubmit } = useForm({
+        defaultValues: {
+            name: '',
+            email: '',
+            password: ''
+        }
+    });
+    const [error, setError]= useState("")
 
     const create = async (data) => {
         setError("");
@@ -46,37 +52,48 @@ function Signup() {
 
                 <form onSubmit={handleSubmit(create)}>
                     <div className='space-y-5'>
-                        <Input
-                            label="Name:"
-                            // placeholder="Enter your email"
-                            type="text"
-                            {...register("email", {
+                        <Controller
+                            name="name"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <Input
+                                    label="Name:"
+                                    type="text"
+                                    {...field}
+                                />
+                            )}
+                        />
+
+                        <Controller
+                            name="email"
+                            control={control}
+                            rules={{
                                 required: true,
                                 validate: {
                                     matchPattern: (value) => /^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/.test(value) || "Email address must be valid  "
                                 }
-                            })}
+                            }}
+                            render={({ field }) => (
+                                <Input
+                                    label="Email:"
+                                    type="email"
+                                    {...field}
+                                />
+                            )}
                         />
 
-                        <Input
-                            label="Email:"
-                            // placeholder="Enter your email"
-                            type="email"
-                            {...register("email", {
-                                required: true,
-                                validate: {
-                                    matchPattern: (value) => /^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/.test(value) || "Email address must be valid  "
-                                }
-                            })}
-                        />
-
-                        <Input
-                            label="Password: "
-                            type="password"
-                            // placeholder="Enter your password"
-                            {...register("password", {
-                                required: true,
-                            })}
+                        <Controller
+                            name="password"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <Input
+                                    label="Password: "
+                                    type="password"
+                                    {...field}
+                                />
+                            )}
                         />
 
                         <Button

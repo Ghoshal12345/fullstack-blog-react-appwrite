@@ -7,14 +7,19 @@ import authService from "../appwrite/auth"
 
 import { Button, Input, Logo } from "./index"
 
-import { useForm } from "react-hook-form"
+import { useForm, Controller } from "react-hook-form"
 
 
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm()
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      email: '',
+      password: ''
+    }
+  })
   const [error, setError] = useState("")
 
   const handleLogin = async (data) => {
@@ -55,24 +60,34 @@ function Login() {
 
         <form onSubmit={handleSubmit(handleLogin)} className='mt-8'>
           <div className='space-y-5 '>
-            <Input
-              label="Email:"
-              // placeholder="Enter your email"
-              type="email"
-              {...register("email", {
+            <Controller
+              name="email"
+              control={control}
+              rules={{
                 required: true,
                 validate: {
                   matchPattern: (value) => /^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/.test(value) || "Email address must be valid  "
                 }
-              })}
+              }}
+              render={({ field }) => (
+                <Input
+                  label="Email:"
+                  type="email"
+                  {...field}
+                />
+              )}
             />
-            <Input
-              label="Password: "
-              type="password"
-              // placeholder="Enter your password"
-              {...register("password", {
-                required: true,
-              })}
+            <Controller
+              name="password"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input
+                  label="Password: "
+                  type="password"
+                  {...field}
+                />
+              )}
             />
             <Button
               type='submit'
